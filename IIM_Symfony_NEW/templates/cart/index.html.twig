@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block body %}
+    <h1>Mon panier</h1>
+    {% if products is empty %}
+        <div class="alert alert-info">Votre panier est vide.</div>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prix</th>
+                    <th>Catégorie</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set total = 0 %}
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.nom }}</td>
+                        <td>{{ product.prix }} €</td>
+                        <td>{{ product.category }}</td>
+                        <td>
+                            <form action="{{ path('app_cart_remove', {'id': product.id}) }}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Retirer</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% set total = total + product.prix %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="mb-3">
+            <strong>Total : {{ total }} points</strong>
+        </div>
+        <form action="{{ path('app_cart_checkout') }}" method="post">
+            <button type="submit" class="btn btn-success">Acheter tous les produits</button>
+        </form>
+    {% endif %}
+{% endblock %} 

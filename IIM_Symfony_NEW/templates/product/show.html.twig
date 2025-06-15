@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.nom }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8">
+            <h1>{{ product.nom }}</h1>
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Détails du produit</h5>
+                    <p class="card-text">
+                        <strong>Prix :</strong> {{ product.prix }} €<br>
+                        <strong>Catégorie :</strong> {{ product.category }}<br>
+                        <strong>Description :</strong><br>
+                        {{ product.description }}
+                    </p>
+                </div>
+            </div>
+
+            {% if app.user %}
+                {% if app.user.isActif() %}
+                    <form action="{{ path('app_cart_add', {'id': product.id}) }}" method="post" class="mb-4">
+                        <button type="submit" class="btn btn-primary">
+                            Ajouter au panier
+                        </button>
+                    </form>
+                {% else %}
+                    <div class="alert alert-warning">
+                        Votre compte est désactivé. Vous ne pouvez pas ajouter de produits au panier.
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="alert alert-info">
+                    <a href="{{ path('app_login') }}">Connectez-vous</a> pour ajouter ce produit au panier.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %} 

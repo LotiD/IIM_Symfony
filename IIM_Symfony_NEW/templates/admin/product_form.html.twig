@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.id ? 'Modifier' : 'Créer' }} un produit{% endblock %}
+
+{% block body %}
+    <h1>{{ product.id ? 'Modifier' : 'Créer' }} un produit</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn btn-primary">{{ product.id ? 'Modifier' : 'Créer' }}</button>
+        <a href="{{ path('app_admin_products') }}" class="btn btn-secondary">Retour à la liste</a>
+    {{ form_end(form) }}
+{% endblock %} 

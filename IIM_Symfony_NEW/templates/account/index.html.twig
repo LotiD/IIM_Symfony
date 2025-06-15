@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+    <h1>Mon compte</h1>
+
+    {# 🧾 Formulaire en premier #}
+    <div class="row mb-5">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    {{ form_start(form) }}
+                        {{ form_row(form.nom) }}
+                        {{ form_row(form.prenom) }}
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# 🔔 Notifications ensuite (si admin) #}
+    {% if 'ROLE_ADMIN' in app.user.roles %}
+        <h2>Notifications</h2>
+        {% if notifications is empty %}
+            <div class="alert alert-info">Aucune notification.</div>
+        {% else %}
+            <ul class="list-group mb-4">
+                {% for notification in notifications %}
+                    <li class="list-group-item">
+                        {{ notification.label }}<br>
+                        <small class="text-muted">{{ notification.createdAt|date('d/m/Y H:i') }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
+{% endblock %}
